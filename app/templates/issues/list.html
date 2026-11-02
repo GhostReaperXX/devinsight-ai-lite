@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% from "_badges.html" import status_badge, priority_badge, category_badge %}
+{% block title %}Issues | DevInsight AI Lite{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+  <h1 class="h3 mb-0">Issues <span class="text-body-secondary fs-5">({{ total }})</span></h1>
+  <a class="btn btn-primary btn-sm" href="/issues/new">New issue</a>
+</div>
+
+<form class="card card-body mb-3" method="get" action="/issues">
+  <div class="row g-2 align-items-end">
+    <div class="col-12 col-lg-3">
+      <label class="form-label small" for="q">Search</label>
+      <input class="form-control form-control-sm" id="q" name="q" type="search"
+             value="{{ filters.q or '' }}" placeholder="Words in title or description">
+    </div>
+    <div class="col-6 col-lg-2">
+      <label class="form-label small" for="project_id">Project</label>
+      <select class="form-select form-select-sm" id="project_id" name="project_id">
+        <option value="">All</option>
+        {% for project in projects %}
+        <option value="{{ project.id }}" {{ 'selected' if filters.project_id == project.id }}>{{ project.key }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-lg-2">
+      <label class="form-label small" for="status">Status</label>
+      <select class="form-select form-select-sm" id="status" name="status">
+        <option value="">All</option>
+        {% for value, label in STATUS_LABELS.items() %}
+        <option value="{{ value }}" {{ 'selected' if filters.status == value }}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-lg-2">
+      <label class="form-label small" for="category">Category</label>
+      <select class="form-select form-select-sm" id="category" name="category">
+        <option value="">All</option>
+        {% for value, label in CATEGORY_LABELS.items() %}
+        <option value="{{ value }}" {{ 'selected' if filters.category == value }}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-lg-1">
+      <label class="form-label small" for="priority">Priority</label>
+      <select class="form-select form-select-sm" id="priority" name="priority">
+        <option value="">All</option>
+        {% for value, label in PRIORITY_LABELS.items() %}
+        <option value="{{ value }}" {{ 'selected' if filters.priority == value }}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-6 col-lg-1">
+      <label class="form-label small" for="sort">Sort</label>
+      <select class="form-select form-select-sm" id="sort" name="sort">
+        <option value="newest" {{ 'selected' if filters.sort == 'newest' }}>Newest</option>
+        <option value="oldest" {{ 'selected' if filters.sort == 'oldest' }}>Oldest</option>
+        <option value="priority" {{ 'selected' if filters.sort == 'priority' }}>Priority</option>
+      </select>
+    </div>
+    <div class="col-6 col-lg-1">
+      <button class="btn btn-sm btn-outline-primary w-100" type="submit">Apply</button>
+    </div>
+  </div>
+</form>
+
+<div class="card">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead>
+        <tr>
+          <th scope="col">ID</th><th scope="col">Title</th><th scope="col">Project</th>
+          <th scope="col">Category</th><th scope="col">Priority</th><th scope="col">Status</th>
+          <th scope="col">Assignee</th><th scope="col">Updated</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for issue in issues %}
+        <tr>
+          <td class="text-body-secondary">#{{ issue.id }}</td>
+          <td><a class="fw-medium text-decoration-none" href="/issues/{{ issue.id }}">{{ issue.title }}</a></td>
+          <td>{{ issue.project.key }}</td>
+          <td>{{ category_badge(issue.category) }}</td>
+          <td>{{ priority_badge(issue.priority) }}</td>
+          <td>{{ status_badge(issue.status) }}</td>
+          <td>{{ issue.assignee.full_name if issue.assignee else 'Unassigned' }}</td>
+          <td class="small text-body-secondary">{{ issue.updated_at | datetime }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="text-center text-body-secondary py-4">No issues match these filters.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% set page_start = filters.offset + 1 if total else 0 %}
+{% set page_end = filters.offset + issues | length %}
+<nav class="d-flex justify-content-between align-items-center mt-3" aria-label="Issue pages">
+  <span class="small text-body-secondary">Showing {{ page_start }} to {{ page_end }} of {{ total }}</span>
+  <div class="btn-group btn-group-sm">
+    {% if filters.offset > 0 %}
+    <a class="btn btn-outline-secondary" rel="prev"
+       href="/issues?{{ query_string }}&limit={{ filters.limit }}&offset={{ [filters.offset - filters.limit, 0] | max }}">Previous</a>
+    {% endif %}
+    {% if page_end < total %}
+    <a class="btn btn-outline-secondary" rel="next"
+       href="/issues?{{ query_string }}&limit={{ filters.limit }}&offset={{ filters.offset + filters.limit }}">Next</a>
+    {% endif %}
+  </div>
+</nav>
+{% endblock %}

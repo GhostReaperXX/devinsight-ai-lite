@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}Dashboard | DevInsight AI Lite{% endblock %}
+
+{% block content %}
+<div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-4">
+  <h1 class="h3 mb-0">Dashboard</h1>
+  <div class="d-flex align-items-center gap-2">
+    <label class="form-label mb-0" for="project-filter">Project</label>
+    <select class="form-select form-select-sm w-auto" id="project-filter">
+      <option value="">All projects</option>
+      {% for project in projects %}
+      <option value="{{ project.id }}">{{ project.key }}: {{ project.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+</div>
+
+<div class="row g-3 mb-4" aria-live="polite">
+  <div class="col-6 col-lg-3">
+    <div class="card kpi-card h-100"><div class="card-body">
+      <div class="kpi-label">Total issues</div>
+      <div class="kpi-value" id="kpi-total">{{ stats.total }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card kpi-card kpi-open h-100"><div class="card-body">
+      <div class="kpi-label">Open</div>
+      <div class="kpi-value" id="kpi-open">{{ stats.by_status.get('open', 0) }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card kpi-card kpi-progress h-100"><div class="card-body">
+      <div class="kpi-label">In progress</div>
+      <div class="kpi-value" id="kpi-progress">{{ stats.by_status.get('in_progress', 0) }}</div>
+    </div></div>
+  </div>
+  <div class="col-6 col-lg-3">
+    <div class="card kpi-card kpi-done h-100"><div class="card-body">
+      <div class="kpi-label">Resolved or closed</div>
+      <div class="kpi-value" id="kpi-done">{{ stats.by_status.get('resolved', 0) + stats.by_status.get('closed', 0) }}</div>
+    </div></div>
+  </div>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-lg-4">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="h6 card-title">Issues by status</h2>
+      <div id="chart-status" data-labels='{{ STATUS_LABELS | tojson }}'></div>
+    </div></div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="h6 card-title">Issues by category</h2>
+      <div id="chart-category" data-labels='{{ CATEGORY_LABELS | tojson }}'></div>
+    </div></div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="h6 card-title">Issues by priority</h2>
+      <div id="chart-priority" data-labels='{{ PRIORITY_LABELS | tojson }}'></div>
+    </div></div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <h2 class="h6 card-title">Needs attention: the most urgent active issues</h2>
+    <div class="table-responsive">
+      <table class="table table-sm align-middle mb-0">
+        <thead><tr><th scope="col">ID</th><th scope="col">Title</th><th scope="col">Project</th><th scope="col">Priority</th><th scope="col">Status</th></tr></thead>
+        <tbody id="urgent-issues"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/dashboard.js') }}"></script>
+{% endblock %}
