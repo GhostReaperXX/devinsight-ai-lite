@@ -1,6 +1,6 @@
 # Defect log
 
-Defects found during final integration in Week 8. Each one has a regression test in
+Defects found during final integration in Chapter 8. Each one has a regression test in
 `tests/test_regressions.py`, written first, seen to fail, and then made to pass by the fix.
 
 | ID | Severity | Symptom | Root cause | Fix | Test |

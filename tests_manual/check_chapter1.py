@@ -1,8 +1,8 @@
-"""A quick self check for Week 1.
+"""A quick self check for Chapter 1.
 
-Run from the project root: python tests_manual/check_week1.py
+Run from the project root: python tests_manual/check_chapter1.py
 
-Formal automated tests with pytest arrive in Week 7. Until then this script gives
+Formal automated tests with pytest arrive in Chapter 7. Until then this script gives
 you confidence that the main behaviour has not been broken by your latest change.
 """
 
