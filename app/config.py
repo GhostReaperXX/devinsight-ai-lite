@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     access_token_minutes: int = 120
     # A public demonstration value. The seed script refuses it in production.
     seed_password: str = DEMO_PASSWORD
+    log_level: str = "INFO"
 
     classifier_file: str = "ml/artifacts/category_model.joblib"
     classifier_metrics_file: str = "ml/artifacts/metrics.json"

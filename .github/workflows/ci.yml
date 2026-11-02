@@ -1,0 +1,30 @@
+name: CI
+
+# Run on every push to main, and on every pull request.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v5
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version-file: .python-version
+          cache: pip
+          cache-dependency-path: requirements*.txt
+
+      - name: Install dependencies
+        run: pip install -r requirements-dev.txt
+
+      - name: Check code style and common mistakes
+        run: ruff check .
+
+      - name: Run the test suite with coverage
+        run: pytest --cov --cov-report=term-missing --cov-fail-under=80

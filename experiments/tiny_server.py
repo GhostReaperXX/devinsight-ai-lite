@@ -43,7 +43,7 @@ class IssueHandler(BaseHTTPRequestHandler):
         try:
             data = json.loads(self.rfile.read(length))
             title = data["title"]
-        except (json.JSONDecodeError, KeyError):
+        except json.JSONDecodeError, KeyError:
             self.send_json(422, {"detail": "send JSON with a title"})
             return
         new_id = max(ISSUES) + 1

@@ -23,7 +23,7 @@ def hash_password(password: str) -> str:
 def verify_password(password: str, stored_hash: str) -> bool:
     try:
         return _hasher.verify(stored_hash, password)
-    except (VerificationError, InvalidHashError):
+    except VerificationError, InvalidHashError:
         return False
 
 
@@ -44,5 +44,5 @@ def read_access_token(token: str) -> int | None:
     try:
         claims = jwt.decode(token, get_settings().secret_key, algorithms=[ALGORITHM])
         return int(claims["sub"])
-    except (jwt.InvalidTokenError, KeyError, ValueError):
+    except jwt.InvalidTokenError, KeyError, ValueError:
         return None

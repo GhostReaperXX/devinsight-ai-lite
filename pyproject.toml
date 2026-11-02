@@ -1,0 +1,25 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra"
+
+[tool.coverage.run]
+source = ["app"]
+omit = ["app/ml/__init__.py"]
+
+[tool.ruff]
+line-length = 92
+target-version = "py314"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+# UP037: SQLAlchemy relationships are written with quoted class names on purpose.
+ignore = ["UP037"]
+
+[tool.ruff.lint.per-file-ignores]
+# S101: assert is the normal way to check a result inside tests.
+# S105, S106: passwords in tests are not real secrets.
+"tests/*" = ["S101", "S105", "S106"]
+"tests_manual/*" = ["S101", "E402"]
+# S311: random numbers for measurements do not need to be secure.
+"benchmarks/*" = ["S311"]
+# T201 stays off: printing is the purpose of these command line scripts.

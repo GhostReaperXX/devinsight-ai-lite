@@ -7,14 +7,33 @@ from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
 
 from app.config import get_settings
 
-database_url = get_settings().database_url
+
+def normalize_database_url(url: str) -> str:
+    """Hosting services give postgres:// or postgresql://. Name the installed driver."""
+    if url.startswith("postgres://"):
+        url = "postgresql://" + url.removeprefix("postgres://")
+    if url.startswith("postgresql://"):
+        url = "postgresql+psycopg://" + url.removeprefix("postgresql://")
+    return url
+
+
+database_url = normalize_database_url(get_settings().database_url)
 is_sqlite = database_url.startswith("sqlite")
 
-# check_same_thread=False: FastAPI may serve a request on any worker thread.
-engine = create_engine(
-    database_url,
-    connect_args={"check_same_thread": False} if is_sqlite else {},
-)
+if is_sqlite:
+    # FastAPI may serve a request on any worker thread.
+    engine = create_engine(database_url, connect_args={"check_same_thread": False})
+else:
+    # A hosted database may close idle connections, so test each one before using it
+    # and replace it after five minutes. The free plans allow only a few connections.
+    engine = create_engine(
+        database_url,
+        pool_pre_ping=True,
+        pool_recycle=300,
+        pool_size=3,
+        max_overflow=2,
+    )
+
 SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
 
 
