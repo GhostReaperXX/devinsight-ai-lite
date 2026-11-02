@@ -68,7 +68,8 @@ AdminUser = Annotated[User, Depends(require_admin)]
 def require_page_user(request: Request, user: OptionalUser) -> User:
     """For browser pages: no valid login means a redirect to the login page."""
     if user is None:
-        raise LoginRequired(request.url.path)
+        query = f"?{request.url.query}" if request.url.query else ""
+        raise LoginRequired(f"{request.url.path}{query}")
     return user
 
 

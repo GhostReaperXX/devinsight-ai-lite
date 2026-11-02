@@ -1,6 +1,7 @@
 """Turn every kind of failure into a safe, helpful answer for API clients and browsers."""
 
 import logging
+from urllib.parse import quote
 
 from fastapi import FastAPI, Request
 from fastapi.exceptions import RequestValidationError
@@ -62,7 +63,7 @@ def error_page(request: Request, status_code: int, message: str) -> Response:
 def register_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(LoginRequired)
     def handle_login_required(_request: Request, error: LoginRequired) -> Response:
-        return RedirectResponse(f"/login?next={error.next_path}", status_code=303)
+        return RedirectResponse(f"/login?next={quote(error.next_path)}", status_code=303)
 
     @app.exception_handler(AppError)
     def handle_app_error(request: Request, error: AppError) -> Response:
@@ -96,7 +97,10 @@ def register_error_handlers(app: FastAPI) -> None:
     @app.exception_handler(Exception)
     def handle_unexpected_error(request: Request, error: Exception) -> Response:
         # The full detail goes to the log for developers. The user sees nothing internal.
-        logger.exception("Unhandled error on %s %s", request.method, request.url.path)
+        # This handler runs on a worker thread where no exception is active, so pass it in.
+        logger.error(
+            "Unhandled error on %s %s", request.method, request.url.path, exc_info=error
+        )
         if wants_html(request):
             return error_page(
                 request,

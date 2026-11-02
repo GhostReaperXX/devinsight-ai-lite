@@ -34,6 +34,20 @@ function readableError(data) {
   return "Something went wrong. Please try again.";
 }
 
+/* Show a time exactly as the server does, so a page refresh never changes it. */
+function formatUtc(isoText) {
+  const formatted = new Intl.DateTimeFormat("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "UTC",
+  }).format(new Date(isoText));
+  return `${formatted} UTC`;
+}
+
 /* Build an element with text only, so user content can never become HTML. */
 function createElement(tag, { className = "", text = "" } = {}) {
   const element = document.createElement(tag);

@@ -1,7 +1,7 @@
 """Issue operations: the core business rules of the tracker."""
 
 from sqlalchemy import case, func, or_, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.errors import NotFoundError, PermissionDeniedError, RuleViolationError
 from app.ml.predictor import CategoryPredictor
@@ -64,6 +64,11 @@ def list_issues(db: Session, filters: IssueFilters) -> tuple[list[Issue], int]:
     total = db.scalar(select(func.count()).select_from(Issue).where(*conditions))
     statement = (
         select(Issue)
+        .options(
+            selectinload(Issue.project),
+            selectinload(Issue.reporter),
+            selectinload(Issue.assignee),
+        )
         .where(*conditions)
         .order_by(*SORT_ORDERS[filters.sort])
         .limit(filters.limit)
@@ -141,6 +146,9 @@ def change_status(db: Session, issue_id: int, data: StatusChange, actor: User) -
         )
 
     issue.status = data.status
+    # A reopened issue is no longer closed as a duplicate of anything.
+    if data.status == "open":
+        issue.duplicate_of_id = None
     if data.comment:
         db.add(Comment(issue_id=issue.id, author_id=actor.id, body=data.comment))
     # Both changes are saved together, or neither is.

@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     classifier_metrics_file: str = "ml/artifacts/metrics.json"
     suggestion_min_confidence: float = 0.50
     related_min_score: float = 0.10
-    # Chosen from labeled pairs by ml/evaluate_similarity.py: best F1, precision 0.90.
+    # Chosen from labeled pairs by ml/evaluate_similarity.py: it gives the best F1.
     duplicate_min_score: float = 0.20
 
     @property
