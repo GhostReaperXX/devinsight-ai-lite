@@ -91,7 +91,7 @@ python -m ml.evaluate_similarity           # choose the duplicate threshold from
 | `data/` | Prepared datasets |
 | `tests/` | Automated tests |
 | `docs/` | SRS, architecture, schema, API, model evaluation, test report, defect log, deployment |
-| `issue_tool/` | The command line utility from Week 1 |
+| `issue_tool/` | The command line utility from Chapter 1 |
 
 ## Documentation
 

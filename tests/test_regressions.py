@@ -1,4 +1,4 @@
-"""Regression tests: each one pins down a real defect found during Week 8.
+"""Regression tests: each one pins down a real defect found during Chapter 8.
 
 The names match the entries in docs/defect_log.md. Each test failed before the fix,
 and it now stops the same defect from ever coming back unnoticed.

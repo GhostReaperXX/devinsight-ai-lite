@@ -42,9 +42,11 @@ Environment variables:
 | `SECRET_KEY` | A new random value, at least 32 characters |
 | `SEED_PASSWORD` | The private demo password |
 
-`--forwarded-allow-ips="*"` tells Uvicorn to trust the proxy's `X-Forwarded-Proto` header. Without it
-the application thinks it is on plain HTTP, and it builds `http://` links to its own static files,
-which browsers then block on an HTTPS page.
+`--forwarded-allow-ips="*"` tells Uvicorn to trust the proxy's `X-Forwarded-Proto` header. If it does
+not trust the proxy, the application thinks it is on plain HTTP and builds `http://` links to its own
+static files, which browsers then block on an HTTPS page. Render's Python runtime already sets
+`FORWARDED_ALLOW_IPS=*`. The flag says the same thing in the command, so the setting stays visible and
+also works on a host that does not set it.
 
 ## 4. Verify after every deployment
 
@@ -65,5 +67,5 @@ which browsers then block on an HTTPS page.
 | Build fails on a package | Wrong Python version | Check `.python-version` and the build log |
 | Service starts, then exits | A missing or weak `SECRET_KEY` | Read the log, set the variable |
 | `/health` returns 503 | Wrong `DATABASE_URL`, or the database is suspended | Check the value, then try again after a few seconds |
-| Pages have no styles | Mixed content | Check the start command includes `--forwarded-allow-ips` |
+| Pages have no styles, and the browser console reports blocked `http://` links | The application thinks it is on plain HTTP | Check the proxy settings in the start command, such as `--forwarded-allow-ips` |
 | First request takes about a minute | The free plan sleeps when idle | Expected behaviour |

@@ -1,6 +1,6 @@
 # Software Requirements Specification: DevInsight AI Lite
 
-Version 1.0. Prepared by the project team during the design week.
+Version 1.0. Prepared by the project team during the design phase.
 
 ## 1. Purpose and scope
 
