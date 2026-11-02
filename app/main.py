@@ -29,7 +29,7 @@ async def lifespan(app: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(
     title="DevInsight AI Lite",
     description="An intelligent software issue tracker.",
-    version="0.7.0",
+    version="1.0.0",
     lifespan=lifespan,
 )
 

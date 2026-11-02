@@ -40,7 +40,7 @@ commentForm.addEventListener("submit", async (event) => {
     });
     document.getElementById("no-comments")?.remove();
 
-    const created = new Date(comment.created_at).toLocaleString();
+    const created = formatUtc(comment.created_at);
     const block = createElement("div", { className: "comment border-top py-2" });
     block.append(
       createElement("div", {

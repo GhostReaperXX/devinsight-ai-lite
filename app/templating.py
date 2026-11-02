@@ -28,7 +28,7 @@ PRIORITY_LABELS = {
 
 def format_datetime(value: datetime | None) -> str:
     """Show a timestamp in one short, unambiguous format."""
-    return value.strftime("%d %b %Y, %H:%M") if value else ""
+    return value.strftime("%d %b %Y, %H:%M UTC") if value else ""
 
 
 def add_current_user(request: Request) -> dict:

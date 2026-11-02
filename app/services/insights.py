@@ -5,7 +5,7 @@ import threading
 from pathlib import Path
 
 from sqlalchemy import func, select
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.config import get_settings
 from app.ml.predictor import CategoryPredictor
@@ -89,9 +89,18 @@ def duplicate_candidates(
 ) -> list[dict]:
     """Return pairs of active issues in the same project that look like the same report."""
     pairs = _current_index(db).similar_pairs(get_settings().duplicate_min_score)
+    wanted = {
+        issue_id for first_id, second_id, _ in pairs for issue_id in (first_id, second_id)
+    }
+    issues = {
+        issue.id: issue
+        for issue in db.scalars(
+            select(Issue).where(Issue.id.in_(wanted)).options(selectinload(Issue.project))
+        )
+    }
     candidates = []
     for first_id, second_id, score in pairs:
-        first, second = db.get(Issue, first_id), db.get(Issue, second_id)
+        first, second = issues[first_id], issues[second_id]
         if (
             first.project_id != second.project_id
             or first.duplicate_of_id

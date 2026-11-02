@@ -47,8 +47,8 @@ def test_production_accepts_a_strong_secret_key():
     assert settings.is_production
 
 
-def test_unexpected_errors_reveal_nothing_to_the_client():
-    """Force a crash inside a route and check what the outside world can see."""
+def test_unexpected_errors_reveal_nothing_to_the_client(caplog):
+    """Force a crash inside a route and check what the outside world and the log can see."""
 
     @app.get("/test-only-crash", include_in_schema=False)
     def crash():
@@ -61,3 +61,6 @@ def test_unexpected_errors_reveal_nothing_to_the_client():
     assert response.status_code == 500
     assert "hunter2" not in response.text
     assert response.json() == {"detail": "Internal server error."}
+    # The client learns nothing, but developers must get the whole traceback.
+    logged = [record for record in caplog.records if record.name == "app.error_handlers"]
+    assert logged[-1].exc_info[0] is RuntimeError

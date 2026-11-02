@@ -9,6 +9,7 @@ class SimilarityIndex:
 
     def __init__(self, ids: list[int], texts: list[str]) -> None:
         self._ids = ids
+        self._pairs_by_threshold: dict[float, list[tuple[int, int, float]]] = {}
         self._vectorizer = None
         self._matrix = None
         if texts:
@@ -41,6 +42,8 @@ class SimilarityIndex:
         """Return every pair of issues whose similarity reaches min_score, best first."""
         if self._matrix is None:
             return []
+        if min_score in self._pairs_by_threshold:
+            return self._pairs_by_threshold[min_score]
         scores = linear_kernel(self._matrix)
         pairs = [
             (self._ids[i], self._ids[j], round(float(scores[i, j]), 3))
@@ -48,4 +51,6 @@ class SimilarityIndex:
             for j in range(i + 1, len(self._ids))
             if scores[i, j] >= min_score
         ]
-        return sorted(pairs, key=lambda pair: pair[2], reverse=True)
+        ranked = sorted(pairs, key=lambda pair: pair[2], reverse=True)
+        self._pairs_by_threshold[min_score] = ranked
+        return ranked

@@ -121,6 +121,13 @@ class IssueUpdate(BaseModel):
     category: Category | None = None
     priority: Priority | None = None
 
+    @field_validator("title", "description", "category", "priority", mode="before")
+    @classmethod
+    def only_assignee_may_be_null(cls, value):
+        if value is None:
+            raise ValueError("this field cannot be empty")
+        return value
+
 
 class StatusChange(BaseModel):
     status: Status
