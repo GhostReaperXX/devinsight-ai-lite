@@ -1,0 +1,117 @@
+{
+  "model": "logistic_regression",
+  "scikit_learn_version": "1.9.1",
+  "rows": {
+    "total": 800,
+    "train": 640,
+    "test": 160
+  },
+  "random_state": 42,
+  "labels": [
+    "bug",
+    "documentation",
+    "feature",
+    "performance",
+    "security"
+  ],
+  "cross_validation": {
+    "baseline_most_frequent": {
+      "macro_f1": 0.1091,
+      "macro_f1_std": 0.0,
+      "accuracy": 0.375
+    },
+    "naive_bayes": {
+      "macro_f1": 0.6816,
+      "macro_f1_std": 0.0515,
+      "accuracy": 0.7391
+    },
+    "logistic_regression": {
+      "macro_f1": 0.8838,
+      "macro_f1_std": 0.0323,
+      "accuracy": 0.8828
+    },
+    "linear_svm": {
+      "macro_f1": 0.8789,
+      "macro_f1_std": 0.0306,
+      "accuracy": 0.8781
+    }
+  },
+  "test": {
+    "accuracy": 0.8938,
+    "macro_f1": 0.9069,
+    "weighted_f1": 0.8934,
+    "per_class": {
+      "bug": {
+        "precision": 0.8833,
+        "recall": 0.8833,
+        "f1": 0.8833,
+        "support": 60
+      },
+      "documentation": {
+        "precision": 0.9091,
+        "recall": 1.0,
+        "f1": 0.9524,
+        "support": 20
+      },
+      "feature": {
+        "precision": 0.8684,
+        "recall": 0.825,
+        "f1": 0.8462,
+        "support": 40
+      },
+      "performance": {
+        "precision": 1.0,
+        "recall": 0.95,
+        "f1": 0.9744,
+        "support": 20
+      },
+      "security": {
+        "precision": 0.8571,
+        "recall": 0.9,
+        "f1": 0.878,
+        "support": 20
+      }
+    },
+    "confusion_matrix": [
+      [
+        53,
+        2,
+        5,
+        0,
+        0
+      ],
+      [
+        0,
+        20,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        0,
+        33,
+        0,
+        3
+      ],
+      [
+        1,
+        0,
+        0,
+        19,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        0,
+        18
+      ]
+    ]
+  },
+  "baseline_test": {
+    "accuracy": 0.375,
+    "macro_f1": 0.1091
+  }
+}

@@ -2,8 +2,8 @@
 
 An intelligent software issue tracker, built step by step during the field training.
 
-This version adds the web interface: server-rendered pages with Jinja2 and Bootstrap, and small
-JavaScript files that talk to the REST API.
+This version adds offline machine learning: a classifier that suggests an issue's category. The
+web application does not use it yet. That is the work of Week 6.
 
 ## Getting started
 
@@ -15,11 +15,19 @@ source .venv/Scripts/activate    # Git Bash on Windows
 pip install -r requirements.txt
 ```
 
-## Run it
+The training tools need extra packages:
 
 ```bash
-python -m scripts.seed_demo --reset
-uvicorn app.main:app --reload
+pip install -r requirements-ml.txt
 ```
 
-Open <http://127.0.0.1:8000> for the application and <http://127.0.0.1:8000/docs> for the API.
+## Train and evaluate
+
+```bash
+python -m ml.train           # compares models, evaluates, saves ml/artifacts/
+python -m ml.leakage_demo    # shows how leakage inflates scores
+python -m ml.predict_cli "Login page times out" "It spins for a minute"
+```
+
+Open `ml/explore_data.ipynb` in VS Code to explore the dataset. Results are in
+`docs/model_evaluation.md`.
