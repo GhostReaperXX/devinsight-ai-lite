@@ -4,11 +4,6 @@ An intelligent software issue tracker. Teams report, track and analyse software 
 place. A lightweight machine learning component suggests a category for each report and points
 out reports that may be duplicates. People always make the final decision.
 
-**Live demonstration:** <https://YOUR-SERVICE.onrender.com>
-(on the free plan the first request after a quiet period can take about a minute)
-
-![CI](https://github.com/YOUR-USERNAME/devinsight-ai-lite/actions/workflows/ci.yml/badge.svg)
-
 ## Features
 
 - Issue creation, editing, status tracking, filtering, search and paging
@@ -17,7 +12,7 @@ out reports that may be duplicates. People always make the final decision.
 - A category suggestion with a confidence value while you type (macro F1 0.907 on unseen reports)
 - Related issues and a review page for likely duplicates, using TF-IDF and cosine similarity
 - A documented REST API at `/docs`
-- 105 automated tests with 91 percent coverage, run on every push by GitHub Actions
+- 105 automated tests with 91 percent coverage, and a GitHub Actions workflow to run them
 
 ## Technology
 
@@ -36,7 +31,7 @@ out reports that may be duplicates. People always make the final decision.
 You need Python 3.14 or newer and Git.
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/devinsight-ai-lite.git
+git clone https://github.com/GhostReaperXX/devinsight-ai-lite.git
 cd devinsight-ai-lite
 python -m venv .venv
 source .venv/Scripts/activate       # Git Bash on Windows
@@ -117,4 +112,4 @@ not meaning.
 
 | Member | Main responsibilities | GitHub |
 |---|---|---|
-| Your name | Your slices | @your-username |
+| Abdelrahman Alfaqih | Reference implementation | @GhostReaperXX |
