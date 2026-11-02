@@ -8,6 +8,13 @@ async function apiRequest(url, { method = "GET", body } = {}) {
   }
 
   const response = await fetch(url, options);
+
+  // The login has expired: send the person to the login page and bring them back.
+  if (response.status === 401) {
+    window.location.href = `/login?next=${encodeURIComponent(window.location.pathname)}`;
+    throw new Error("Please log in again.");
+  }
+
   const data = response.status === 204 ? null : await response.json();
 
   if (!response.ok) {

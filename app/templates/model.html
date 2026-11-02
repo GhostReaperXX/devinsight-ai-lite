@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}AI model | DevInsight AI Lite{% endblock %}
+
+{% block content %}
+<h1 class="h3">AI model: issue category classifier</h1>
+{% if not metrics %}
+<div class="alert alert-warning" role="status">No evaluation found. Run <code>python -m ml.train</code> on a development computer.</div>
+{% else %}
+<p class="text-body-secondary">{{ metrics.model | replace('_', ' ') | capitalize }} on TF-IDF features, trained with scikit-learn {{ metrics.scikit_learn_version }}
+on {{ metrics.rows.train }} labeled reports and evaluated on {{ metrics.rows.test }} reports it never saw.
+{% if not model_loaded %}<strong class="text-danger">The model file is not loaded, so suggestions are switched off.</strong>{% endif %}</p>
+
+<div class="row g-3 mb-4">
+  <div class="col-6 col-lg-3"><div class="card kpi-card h-100"><div class="card-body"><div class="kpi-label">Macro F1</div><div class="kpi-value">{{ '%.3f' | format(metrics.test.macro_f1) }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi-card h-100"><div class="card-body"><div class="kpi-label">Accuracy</div><div class="kpi-value">{{ '%.3f' | format(metrics.test.accuracy) }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi-card kpi-open h-100"><div class="card-body"><div class="kpi-label">Baseline macro F1</div><div class="kpi-value">{{ '%.3f' | format(metrics.baseline_test.macro_f1) }}</div></div></div></div>
+  <div class="col-6 col-lg-3"><div class="card kpi-card kpi-open h-100"><div class="card-body"><div class="kpi-label">Baseline accuracy</div><div class="kpi-value">{{ '%.3f' | format(metrics.baseline_test.accuracy) }}</div></div></div></div>
+</div>
+
+<div class="row g-3">
+  <div class="col-lg-6">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="h6">Per-category results</h2>
+      <table class="table table-sm align-middle mb-0">
+        <thead><tr><th scope="col">Category</th><th scope="col" class="text-end">Precision</th><th scope="col" class="text-end">Recall</th><th scope="col" class="text-end">F1</th><th scope="col" class="text-end">Reports</th></tr></thead>
+        <tbody>
+          {% for label, row in metrics.test.per_class.items() %}
+          <tr><td>{{ CATEGORY_LABELS[label] }}</td><td class="text-end">{{ '%.3f' | format(row.precision) }}</td><td class="text-end">{{ '%.3f' | format(row.recall) }}</td><td class="text-end">{{ '%.3f' | format(row.f1) }}</td><td class="text-end">{{ row.support }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div></div>
+  </div>
+  <div class="col-lg-6">
+    <div class="card h-100"><div class="card-body">
+      <h2 class="h6">Confusion matrix (rows are the true category)</h2>
+      <div class="table-responsive">
+        <table class="table table-sm table-bordered text-center align-middle mb-0 small">
+          <thead><tr><th scope="col"></th>{% for label in metrics.labels %}<th scope="col">{{ CATEGORY_LABELS[label][:4] }}</th>{% endfor %}</tr></thead>
+          <tbody>
+            {% for row in metrics.test.confusion_matrix %}
+            {% set row_index = loop.index0 %}
+            <tr><th scope="row" class="text-start">{{ CATEGORY_LABELS[metrics.labels[row_index]] }}</th>
+              {% for value in row %}<td class="{{ 'table-success fw-semibold' if loop.index0 == row_index else ('table-danger' if value > 0) }}">{{ value }}</td>{% endfor %}
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div></div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}

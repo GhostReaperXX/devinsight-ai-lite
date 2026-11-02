@@ -2,8 +2,8 @@
 
 An intelligent software issue tracker, built step by step during the field training.
 
-This version adds offline machine learning: a classifier that suggests an issue's category. The
-web application does not use it yet. That is the work of Week 6.
+This version connects the model to the application and secures it: accounts, access rules,
+category suggestions, related issues and duplicate detection.
 
 ## Getting started
 
@@ -15,19 +15,19 @@ source .venv/Scripts/activate    # Git Bash on Windows
 pip install -r requirements.txt
 ```
 
-The training tools need extra packages:
+## Configure
 
 ```bash
-pip install -r requirements-ml.txt
+cp .env.example .env
+python -c "import secrets; print(secrets.token_urlsafe(48))"    # paste the result as SECRET_KEY
 ```
 
-## Train and evaluate
+## Run it
 
 ```bash
-python -m ml.train           # compares models, evaluates, saves ml/artifacts/
-python -m ml.leakage_demo    # shows how leakage inflates scores
-python -m ml.predict_cli "Login page times out" "It spins for a minute"
+python -m scripts.seed_demo --reset
+uvicorn app.main:app --reload
 ```
 
-Open `ml/explore_data.ipynb` in VS Code to explore the dataset. Results are in
-`docs/model_evaluation.md`.
+Log in as `admin@devinsight.example` or `lina@devinsight.example` with the password `Training#2026`.
+These accounts are for demonstration only.

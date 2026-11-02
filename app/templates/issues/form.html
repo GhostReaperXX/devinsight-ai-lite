@@ -14,35 +14,23 @@
 
 <div class="row g-3">
   <div class="col-lg-8">
-    <form class="card card-body needs-validation" method="post" id="issue-form" novalidate
+    <form class="card card-body" method="post" id="issue-form" novalidate
+          data-exclude-id="{{ issue.id if issue else '' }}"
           action="{{ '/issues/' ~ issue.id ~ '/edit' if issue else '/issues/new' }}">
       {% if errors %}
       <div class="alert alert-danger" role="alert">Please correct the highlighted fields and submit again.</div>
       {% endif %}
 
-      <div class="row g-3 mb-3">
-        <div class="col-md-6">
-          <label class="form-label" for="project_id">Project</label>
-          <select class="form-select {{ 'is-invalid' if errors.get('project_id') }}" id="project_id" name="project_id"
-                  required {{ 'disabled' if issue }}>
-            <option value="">Choose a project</option>
-            {% for project in projects %}
-            <option value="{{ project.id }}" {{ 'selected' if form.get('project_id') | string == project.id | string }}>{{ project.key }}: {{ project.name }}</option>
-            {% endfor %}
-          </select>
-          {{ field_error(errors, 'project_id') }}
-        </div>
-        <div class="col-md-6">
-          <label class="form-label" for="reporter_id">Reported by</label>
-          <select class="form-select {{ 'is-invalid' if errors.get('reporter_id') }}" id="reporter_id" name="reporter_id"
-                  required {{ 'disabled' if issue }}>
-            <option value="">Choose a person</option>
-            {% for user in users %}
-            <option value="{{ user.id }}" {{ 'selected' if form.get('reporter_id') | string == user.id | string }}>{{ user.full_name }}</option>
-            {% endfor %}
-          </select>
-          {{ field_error(errors, 'reporter_id') }}
-        </div>
+      <div class="mb-3">
+        <label class="form-label" for="project_id">Project</label>
+        <select class="form-select {{ 'is-invalid' if errors.get('project_id') }}" id="project_id" name="project_id"
+                required {{ 'disabled' if issue }}>
+          <option value="">Choose a project</option>
+          {% for project in projects %}
+          <option value="{{ project.id }}" {{ 'selected' if form.get('project_id') | string == project.id | string }}>{{ project.key }}: {{ project.name }}</option>
+          {% endfor %}
+        </select>
+        {{ field_error(errors, 'project_id') }}
       </div>
 
       <div class="mb-3">
@@ -99,6 +87,31 @@
         <a class="btn btn-outline-secondary" href="{{ '/issues/' ~ issue.id if issue else '/issues' }}">Cancel</a>
       </div>
     </form>
+  </div>
+
+  <div class="col-lg-4">
+    <aside class="card ai-panel" aria-live="polite">
+      <div class="card-body">
+        <h2 class="h6">AI assistant</h2>
+        <p class="small text-body-secondary" id="ai-hint">Start typing a title and description. Suggestions appear here.</p>
+
+        <div id="ai-suggestion" hidden>
+          <div class="small text-body-secondary">Suggested category</div>
+          <div class="d-flex align-items-center justify-content-between gap-2 mb-1">
+            <span class="fw-semibold" id="ai-category"></span>
+            <button class="btn btn-outline-primary btn-sm" type="button" id="ai-use">Use this</button>
+          </div>
+          <div class="progress mb-1" role="img" id="ai-meter"><div class="progress-bar" id="ai-meter-fill"></div></div>
+          <div class="small text-body-secondary" id="ai-confidence"></div>
+          <div class="small text-warning-emphasis mt-1" id="ai-unsure" hidden>The model is unsure about this one. Please decide for yourself.</div>
+        </div>
+
+        <div id="ai-related" class="mt-3" hidden>
+          <div class="small text-body-secondary mb-1">Possibly related issues: check these before creating a new one</div>
+          <ul class="list-unstyled small mb-0" id="ai-related-list"></ul>
+        </div>
+      </div>
+    </aside>
   </div>
 </div>
 {% endblock %}

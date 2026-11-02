@@ -67,6 +67,18 @@ function renderUrgent(issues) {
   }
 }
 
+function asPercent(value) {
+  return value === null ? "n/a" : `${Math.round(value * 100)}%`;
+}
+
+async function refreshInsights() {
+  const summary = await apiRequest("/api/insights/summary");
+  document.getElementById("ai-f1").textContent = summary.model_macro_f1?.toFixed(2) ?? "n/a";
+  document.getElementById("ai-count").textContent = summary.predictions_made;
+  document.getElementById("ai-agreement").textContent = asPercent(summary.agreement_rate);
+  document.getElementById("ai-duplicates").textContent = summary.duplicate_candidates;
+}
+
 async function refreshDashboard() {
   const projectId = projectFilter.value;
   const projectQuery = projectId ? `&project_id=${projectId}` : "";
@@ -96,3 +108,4 @@ async function refreshDashboard() {
 
 projectFilter.addEventListener("change", refreshDashboard);
 refreshDashboard();
+refreshInsights();
