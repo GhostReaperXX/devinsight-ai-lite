@@ -38,8 +38,15 @@ def test_api_documentation_is_available(client):
 
 @pytest.mark.parametrize("weak_key", [DEVELOPMENT_KEY, "too-short"])
 def test_production_refuses_a_weak_secret_key(weak_key):
-    with pytest.raises(ValidationError):
-        Settings(environment="production", secret_key=weak_key, _env_file=None)
+    with pytest.raises(ValidationError) as caught:
+        Settings(
+            environment="production",
+            secret_key=weak_key,
+            seed_password="private-value",
+            _env_file=None,
+        )
+    # This message reaches the logs, so it must not quote any setting.
+    assert "private-value" not in str(caught.value)
 
 
 def test_production_accepts_a_strong_secret_key():

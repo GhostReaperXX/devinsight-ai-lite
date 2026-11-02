@@ -3,8 +3,10 @@
 import os
 
 os.environ["ENVIRONMENT"] = "test"
-# The fixtures below delete all tables. Point TEST_DATABASE_URL only at a disposable database.
-os.environ["DATABASE_URL"] = os.environ.get("TEST_DATABASE_URL", "sqlite:///./test_devinsight.db")
+# The fixtures delete all tables, so TEST_DATABASE_URL must name a disposable database.
+os.environ["DATABASE_URL"] = os.environ.get(
+    "TEST_DATABASE_URL", "sqlite:///./test_devinsight.db"
+)
 os.environ["SECRET_KEY"] = "test-only-key-that-is-long-enough-for-the-signature"
 
 import pytest

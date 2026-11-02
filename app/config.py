@@ -11,8 +11,12 @@ DEMO_PASSWORD = "Training#2026"  # noqa: S105 (printed in the book on purpose)
 
 
 class Settings(BaseSettings):
+    # A failed check must not quote the values: its message reaches the logs.
     model_config = SettingsConfigDict(
-        env_file=".env", env_file_encoding="utf-8", extra="ignore"
+        env_file=".env",
+        env_file_encoding="utf-8",
+        extra="ignore",
+        hide_input_in_errors=True,
     )
 
     environment: Literal["development", "test", "production"] = "development"
