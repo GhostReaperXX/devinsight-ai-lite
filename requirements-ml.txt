@@ -1,0 +1,5 @@
+# Tools used only on the developer's computer, to explore data and train the model.
+-r requirements.txt
+pandas==3.1.0
+matplotlib==3.11.2
+ipykernel==7.4.0
