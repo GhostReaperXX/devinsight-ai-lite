@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% from "_badges.html" import field_error %}
+{% block title %}{{ 'Edit issue' if issue else 'New issue' }} | DevInsight AI Lite{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb small">
+    <li class="breadcrumb-item"><a href="/issues">Issues</a></li>
+    {% if issue %}<li class="breadcrumb-item"><a href="/issues/{{ issue.id }}">#{{ issue.id }}</a></li>{% endif %}
+    <li class="breadcrumb-item active" aria-current="page">{{ 'Edit' if issue else 'New issue' }}</li>
+  </ol>
+</nav>
+<h1 class="h3 mb-3">{{ 'Edit issue #' ~ issue.id if issue else 'Report a new issue' }}</h1>
+
+<div class="row g-3">
+  <div class="col-lg-8">
+    <form class="card card-body needs-validation" method="post" id="issue-form" novalidate
+          action="{{ '/issues/' ~ issue.id ~ '/edit' if issue else '/issues/new' }}">
+      {% if errors %}
+      <div class="alert alert-danger" role="alert">Please correct the highlighted fields and submit again.</div>
+      {% endif %}
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-6">
+          <label class="form-label" for="project_id">Project</label>
+          <select class="form-select {{ 'is-invalid' if errors.get('project_id') }}" id="project_id" name="project_id"
+                  required {{ 'disabled' if issue }}>
+            <option value="">Choose a project</option>
+            {% for project in projects %}
+            <option value="{{ project.id }}" {{ 'selected' if form.get('project_id') | string == project.id | string }}>{{ project.key }}: {{ project.name }}</option>
+            {% endfor %}
+          </select>
+          {{ field_error(errors, 'project_id') }}
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="reporter_id">Reported by</label>
+          <select class="form-select {{ 'is-invalid' if errors.get('reporter_id') }}" id="reporter_id" name="reporter_id"
+                  required {{ 'disabled' if issue }}>
+            <option value="">Choose a person</option>
+            {% for user in users %}
+            <option value="{{ user.id }}" {{ 'selected' if form.get('reporter_id') | string == user.id | string }}>{{ user.full_name }}</option>
+            {% endfor %}
+          </select>
+          {{ field_error(errors, 'reporter_id') }}
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="title">Title</label>
+        <input class="form-control {{ 'is-invalid' if errors.get('title') }}" id="title" name="title" type="text"
+               value="{{ form.get('title', '') }}" required minlength="5" maxlength="150"
+               aria-describedby="title-help">
+        <div class="form-text" id="title-help">One clear sentence, 5 to 150 characters. <span id="title-count"></span></div>
+        {{ field_error(errors, 'title') }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label" for="description">Description</label>
+        <textarea class="form-control {{ 'is-invalid' if errors.get('description') }}" id="description" name="description"
+                  rows="6" required minlength="10" maxlength="5000"
+                  aria-describedby="description-help">{{ form.get('description', '') }}</textarea>
+        <div class="form-text" id="description-help">What happened, what you expected, and how to repeat it.</div>
+        {{ field_error(errors, 'description') }}
+      </div>
+
+      <div class="row g-3 mb-3">
+        <div class="col-md-4">
+          <label class="form-label" for="category">Category</label>
+          <select class="form-select {{ 'is-invalid' if errors.get('category') }}" id="category" name="category" required>
+            <option value="">Choose</option>
+            {% for value, label in CATEGORY_LABELS.items() %}
+            <option value="{{ value }}" {{ 'selected' if form.get('category') == value }}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          {{ field_error(errors, 'category') }}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="priority">Priority</label>
+          <select class="form-select {{ 'is-invalid' if errors.get('priority') }}" id="priority" name="priority">
+            {% for value, label in PRIORITY_LABELS.items() %}
+            <option value="{{ value }}" {{ 'selected' if form.get('priority') == value }}>{{ label }}</option>
+            {% endfor %}
+          </select>
+          {{ field_error(errors, 'priority') }}
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="assignee_id">Assignee</label>
+          <select class="form-select" id="assignee_id" name="assignee_id">
+            <option value="">Unassigned</option>
+            {% for user in users %}
+            <option value="{{ user.id }}" {{ 'selected' if form.get('assignee_id') | string == user.id | string }}>{{ user.full_name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary" type="submit">{{ 'Save changes' if issue else 'Create issue' }}</button>
+        <a class="btn btn-outline-secondary" href="{{ '/issues/' ~ issue.id if issue else '/issues' }}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', path='js/issue_form.js') }}"></script>
+{% endblock %}

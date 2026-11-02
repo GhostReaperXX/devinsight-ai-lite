@@ -1,0 +1,17 @@
+{# Small reusable pieces. A macro is a function that returns HTML. #}
+
+{% macro status_badge(status) %}
+<span class="badge badge-status-{{ status }}">{{ STATUS_LABELS[status] }}</span>
+{% endmacro %}
+
+{% macro priority_badge(priority) %}
+<span class="badge badge-priority-{{ priority }}">{{ PRIORITY_LABELS[priority] }}</span>
+{% endmacro %}
+
+{% macro category_badge(category) %}
+<span class="badge text-bg-light border">{{ CATEGORY_LABELS[category] }}</span>
+{% endmacro %}
+
+{% macro field_error(errors, name) %}
+{% if errors.get(name) %}<div class="invalid-feedback d-block">{{ errors[name] }}</div>{% endif %}
+{% endmacro %}

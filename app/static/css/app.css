@@ -1,0 +1,51 @@
+/* DevInsight AI Lite: small additions on top of Bootstrap. */
+
+:root {
+  --app-navy: #14334f;
+  --app-blue: #1f6fb2;
+  --app-amber: #f0b429;
+}
+
+.app-navbar { background: var(--app-navy); }
+.brand-accent { color: var(--app-amber); }
+.navbar .nav-link { color: rgba(255, 255, 255, .82); }
+.navbar .nav-link:hover, .navbar .nav-link:focus { color: #fff; }
+
+.btn-primary { --bs-btn-bg: var(--app-blue); --bs-btn-border-color: var(--app-blue);
+               --bs-btn-hover-bg: #195a91; --bs-btn-hover-border-color: #195a91; }
+.btn-outline-primary { --bs-btn-color: var(--app-blue); --bs-btn-border-color: var(--app-blue);
+                       --bs-btn-hover-bg: var(--app-blue); --bs-btn-hover-border-color: var(--app-blue); }
+
+.card { border-color: #e3e8ee; box-shadow: 0 1px 2px rgba(20, 51, 79, .05); }
+
+.kpi-card { border-left: 4px solid var(--app-navy); }
+.kpi-open { border-left-color: #d9480f; }
+.kpi-progress { border-left-color: var(--app-blue); }
+.kpi-done { border-left-color: #2b8a3e; }
+.kpi-label { font-size: .8rem; color: #5c6b7a; text-transform: uppercase; letter-spacing: .04em; }
+.kpi-value { font-size: 2rem; font-weight: 600; line-height: 1.2; color: var(--app-navy); }
+
+/* Status and priority always show a word as well as a colour, so meaning
+   never depends on colour vision alone. */
+.badge-status-open { background: #fff0e6; color: #a63a06; border: 1px solid #f5c8ab; }
+.badge-status-in_progress { background: #e6f1fa; color: #135486; border: 1px solid #b4d5ee; }
+.badge-status-resolved { background: #e7f6ea; color: #1f6b30; border: 1px solid #b9e3c2; }
+.badge-status-closed { background: #eceff2; color: #46525e; border: 1px solid #cfd6dd; }
+.badge-priority-low { background: #eceff2; color: #46525e; }
+.badge-priority-medium { background: #e6f1fa; color: #135486; }
+.badge-priority-high { background: #fff0e6; color: #a63a06; }
+.badge-priority-critical { background: #b02a37; color: #fff; }
+
+.bar-row { display: grid; grid-template-columns: 7.5rem 1fr 2.2rem; gap: .5rem; align-items: center; margin-bottom: .5rem; }
+.bar-label { font-size: .85rem; }
+.bar-count { font-size: .85rem; text-align: right; font-variant-numeric: tabular-nums; }
+.bar-row .progress { height: .6rem; }
+.bar-row .progress-bar { background: var(--app-blue); }
+
+/* Keep the line breaks that the reporter typed. */
+.issue-description, .comment-body { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+a:focus-visible, button:focus-visible, select:focus-visible, input:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--app-amber);
+  outline-offset: 2px;
+}
