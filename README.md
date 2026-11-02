@@ -4,6 +4,9 @@ An intelligent software issue tracker. Teams report, track and analyse software 
 place. A lightweight machine learning component suggests a category for each report and points
 out reports that may be duplicates. People always make the final decision.
 
+**Live demonstration:** <https://devinsight-ai-lite.onrender.com>
+(on the free plan the first request after a quiet period can take about a minute)
+
 ## Features
 
 - Issue creation, editing, status tracking, filtering, search and paging
@@ -45,7 +48,7 @@ uvicorn app.main:app --reload
 
 Open <http://127.0.0.1:8000> and log in as `admin@devinsight.example` with the password
 `Training#2026`. These demonstration accounts exist only on your computer unless you create them
-elsewhere.
+elsewhere. On the live demonstration, register an account of your own.
 
 ## Configuration
 
