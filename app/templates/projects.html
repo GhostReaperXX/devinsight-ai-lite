@@ -24,6 +24,7 @@
       </div>
     </div>
   </div>
+  {% if current_user.role == 'admin' %}
   <div class="col-lg-4">
     <form class="card card-body" method="post" action="/projects">
       <h2 class="h6">Add a project</h2>
@@ -47,5 +48,6 @@
       <button class="btn btn-primary btn-sm" type="submit">Create project</button>
     </form>
   </div>
+  {% endif %}
 </div>
 {% endblock %}

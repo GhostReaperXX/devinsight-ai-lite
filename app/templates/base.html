@@ -19,13 +19,21 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="mainNav">
+        {% if current_user %}
         <ul class="navbar-nav me-auto">
           <li class="nav-item"><a class="nav-link" href="/">Dashboard</a></li>
           <li class="nav-item"><a class="nav-link" href="/issues">Issues</a></li>
+          <li class="nav-item"><a class="nav-link" href="/duplicates">Duplicates</a></li>
           <li class="nav-item"><a class="nav-link" href="/projects">Projects</a></li>
+          <li class="nav-item"><a class="nav-link" href="/model">AI model</a></li>
           <li class="nav-item"><a class="nav-link" href="/docs">API docs</a></li>
         </ul>
-        <a class="btn btn-warning btn-sm fw-semibold" href="/issues/new">New issue</a>
+        <a class="btn btn-warning btn-sm fw-semibold me-3" href="/issues/new">New issue</a>
+        <span class="navbar-text small me-2">{{ current_user.full_name }}{% if current_user.role == 'admin' %} (admin){% endif %}</span>
+        <form method="post" action="/logout">
+          <button class="btn btn-outline-light btn-sm" type="submit">Log out</button>
+        </form>
+        {% endif %}
       </div>
     </div>
   </nav>

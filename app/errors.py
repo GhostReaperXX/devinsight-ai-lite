@@ -15,3 +15,11 @@ class ConflictError(AppError):
 
 class RuleViolationError(AppError):
     """The request is well formed but breaks a business rule."""
+
+
+class PermissionDeniedError(AppError):
+    """The user is known, but is not allowed to do this."""
+
+
+class AuthenticationError(AppError):
+    """The user could not be identified."""

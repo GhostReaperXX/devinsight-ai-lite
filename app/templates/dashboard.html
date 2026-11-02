@@ -63,14 +63,33 @@
   </div>
 </div>
 
-<div class="card">
-  <div class="card-body">
-    <h2 class="h6 card-title">Needs attention: the most urgent active issues</h2>
-    <div class="table-responsive">
-      <table class="table table-sm align-middle mb-0">
-        <thead><tr><th scope="col">ID</th><th scope="col">Title</th><th scope="col">Project</th><th scope="col">Priority</th><th scope="col">Status</th></tr></thead>
-        <tbody id="urgent-issues"></tbody>
-      </table>
+<div class="row g-3">
+  <div class="col-lg-8">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h6 card-title">Needs attention: the most urgent active issues</h2>
+        <div class="table-responsive">
+          <table class="table table-sm align-middle mb-0">
+            <thead><tr><th scope="col">ID</th><th scope="col">Title</th><th scope="col">Project</th><th scope="col">Priority</th><th scope="col">Status</th></tr></thead>
+            <tbody id="urgent-issues"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h2 class="h6 card-title">AI assistance</h2>
+        <dl class="row small mb-2">
+          <dt class="col-8 fw-normal">Model quality (macro F1)</dt><dd class="col-4 text-end fw-semibold" id="ai-f1">...</dd>
+          <dt class="col-8 fw-normal">Suggestions made</dt><dd class="col-4 text-end fw-semibold" id="ai-count">...</dd>
+          <dt class="col-8 fw-normal">People agreed with the model</dt><dd class="col-4 text-end fw-semibold" id="ai-agreement">...</dd>
+          <dt class="col-8 fw-normal">Likely duplicate pairs</dt><dd class="col-4 text-end fw-semibold" id="ai-duplicates">...</dd>
+        </dl>
+        <a class="small me-3" href="/model">Model details</a>
+        <a class="small" href="/duplicates">Review duplicates</a>
+      </div>
     </div>
   </div>
 </div>

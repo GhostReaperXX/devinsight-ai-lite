@@ -2,6 +2,7 @@
 
 from datetime import datetime
 
+from fastapi import Request
 from fastapi.templating import Jinja2Templates
 
 STATUS_LABELS = {
@@ -30,7 +31,14 @@ def format_datetime(value: datetime | None) -> str:
     return value.strftime("%d %b %Y, %H:%M") if value else ""
 
 
-templates = Jinja2Templates(directory="app/templates")
+def add_current_user(request: Request) -> dict:
+    """Make the logged-in user available to every template, for the navigation bar."""
+    return {"current_user": getattr(request.state, "user", None)}
+
+
+templates = Jinja2Templates(
+    directory="app/templates", context_processors=[add_current_user]
+)
 templates.env.filters["datetime"] = format_datetime
 # Jinja2 sorts keys in its tojson filter by default, which would list statuses
 # alphabetically. Keep our own order: the life cycle of an issue.
