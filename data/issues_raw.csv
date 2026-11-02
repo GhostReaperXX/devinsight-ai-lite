@@ -1,0 +1,61 @@
+issue_id,title,description,category,priority,status,reporter,created_at
+1001,Coupon box rejects lowercase codes,"Typing the code in small letters gives invalid, capitals work.",bug,medium,open,dev_lina,2026-01-12
+1002,  Booking confirmation shows wrong clinic ,Confirmation mail lists the branch from the previous booking.,bug,High,OPEN,qa.omar,2026-01-13
+1003,Add sort by due date to task list,Project managers want the earliest deadline on top.,feature,low,open,pm_sami,2026-01-14
+1004,Driver app battery drain on long routes,"Tablets lose 40 percent in two hours, GPS polling every second.",performance,medium,In Progress,dev_kareem,2026-01-15
+1005,Terms page still mentions old company address,Legal text in the footer page was not updated after the move.,documentation,low,Closed,user4471,16/01/2026
+1006,,Customer says the gift card balance was shown as zero for a whole day.,bug,medium,open,support.rana,2026-01-19
+1007,Session stays active after password change,Other devices remain logged in when the password is changed.,security,HIGH,open,qa.noor,2026-01-20
+1008,Timesheet total ignores lunch break,Break minutes are not subtracted when the shift crosses midnight.,bug,medium,resolved,user2093,2026-01-21
+1009,Allow bulk import of course codes  ,Registrar wants to upload the whole list from one file.,feature,Medium,in-progress,dev_lina,2026-01-22
+1010,Dashboard query times out at month end,"Aggregation over all branches runs past 60 seconds, needs a summary table.",performance,high,IN_PROGRESS,dev_kareem,2026-01-23
+1011,Printer icon looks blurry on sharp screens,Low resolution icon in the toolbar of the desktop app.,misc,low,open,user8120,2026-01-26
+1012,API guide has wrong base URL,"Examples use the old staging host, which no longer resolves.",documentation,medium,resolved,qa.omar,2026-01-27
+1013,Refund mail missing order number,Customers cannot tell which order the refund belongs to.,bug,low,Open,support.rana,28/01/2026
+1014,Database password visible in build log,The migration step prints the full connection string to the console.,security,urgent!!,open,dev_lina,2026-01-29
+1015,Add QR check-in for clinic visitors,Reception wants less paper at the door and shorter queues.,feature,medium,open,pm_sami,2026-01-30
+1016, Course search ignores teacher name,Searching by teacher returns nothing even when the teacher exists.,bug,Low,CLOSED,user4471,2026-02-02
+1017,Image gallery loads every photo at full size,Album with 300 pictures downloads 900 MB on each visit.,performance,medium,open,qa.noor,2026-02-03
+1003,Add sort by due date to task list,Project managers want the earliest deadline on top.,feature,low,open,pm_sami,2026-01-14
+1018,Explain refund rules in the seller handbook,New sellers keep asking the same three questions.,documentation,low,open ,user2093,2026-02-04
+1019,,"Report from a teacher, the quiz timer ran out while the page was frozen.",bug,high,in_progress,qa.omar,2026-02-05
+1020,Kiosk shows staff menu after idle timeout,Idle kiosk falls back to a screen with staff functions.,security,critical,Open,dev_kareem,yesterday
+1021,Wishlist button missing on tablet layout,Heart icon is hidden below 900 pixels of width.,bug,low,closed,user8120,2026-02-09
+1022,Warehouse lookup takes four seconds  ,Every barcode lookup needs four seconds over wifi.,performance,MEDIUM,open,dev_lina,11/02/2026
+1023,Payroll export uses wrong decimal separator,"File uses a comma, the bank import expects a dot.",bug,high,resolved,qa.omar,2026-02-12
+1024,Support Hebrew in the invoice template,Our new branch needs right-to-left invoices.,feature,low,OPEN,pm_sami,2026-02-13
+1012,API guide has wrong base URL,"Examples use the old staging host, which no longer resolves.",documentation,medium,resolved,qa.omar,2026-01-27
+1025,   Chat history search returns old results,New messages do not appear in search until the next day.,bug,medium,In Progress,dev_kareem,2026-02-16
+,Export button does nothing in older browsers,Clicking export on the report page has no effect at all.,bug,medium,open,user4471,2026-02-17
+1026,Footer logo overlaps text on small phones,Cosmetic issue on the landing page below 360 pixels.,???,low,open,user2093,2026-02-18
+1027,Remember last used warehouse per user,Pickers select the same warehouse every morning.,feature,medium,Open,qa.noor,2026-02-19
+1028,Reset token logged in plain text,Application log contains the full reset URL for every request.,security,high,in_progress,dev_lina,2026-02-20
+1029,Kitchen display misses rush orders,Rush flag is not passed on to the kitchen screen.,bug,P1,open,support.rana,2026-02-23
+1030,Add monthly summary to fleet report ,Managers want one line per van for the month.,feature,LOW,resolved,pm_sami,2026-02-24
+1031,Setup guide skips database step,New installs fail because nobody mentions creating the schema.,documentation,medium,open,user8120,25/02/2026
+1032,Bulk mail job blocks the web server,Sending 5000 mails runs in the request thread for minutes.,performance,High,Resolved,dev_kareem,2026-02-26
+1033,,Screenshot shows the tax column empty on the second invoice page.,bug,low,closed,qa.omar,2026-02-27
+1034,Student can view other class results,Changing the class number in the address shows other marks.,security,CRITICAL,open,qa.noor,2026-03-02
+1021,Wishlist button missing on tablet layout,Heart icon is hidden below 900 pixels of width.,bug,low,closed,user8120,2026-02-09
+1035,Gate sensor reports wrong direction,Cars leaving the garage are counted as entering.,bug,medium,RESOLVED,dev_lina,2026-03-03
+1036,Offer pickup time slots at checkout,Customers ask to choose an hour for collecting orders.,feature,low,in-progress,pm_sami,2026-03-04
+1037, Release notes missing for version 7.2 ,The changelog page stops at version 7.1.,documentation,low,closed,user4471,2026-03-05
+ABC-17,Search box loses focus while typing,Every third letter the cursor jumps out of the field.,bug,medium,open,user2093,2026-03-06
+1038,Report page renders 40000 rows at once,Browser tab freezes for half a minute on big accounts.,performance,medium,IN_PROGRESS,dev_kareem,2026-03-09
+1039,Add parent contact field to student form,Teachers want a phone field for a second parent.,feature,low,Closed,qa.omar,14/03/2026
+1040,Holiday banner shows old year,Seasonal banner on the home page still says 2024.,general,low,open,support.rana,2026-03-10
+1041,API key stored in mobile app bundle,The key can be read by unpacking the installer.,security,high,Open,dev_lina,2026-03-11
+1042,Time clock rejects shifts over midnight,End time earlier than start time gives a validation error.,bug,high,open,user8120,2026-02-30
+1043,Add language switch on login page,Visitors cannot change language before signing in.,feature,asap,open,pm_sami,2026-03-12
+1044,Wrong screenshot in the cashier guide   ,Step 4 shows the settings screen rather than the till.,documentation,Medium,Open,qa.noor,2026-03-13
+1045,Thumbnail job keeps CPU at 100 percent,Resizing runs on all cores during shop hours.,performance,HIGH,in_progress,dev_kareem,2026-03-16
+1035,Gate sensor reports wrong direction,Cars leaving the garage are counted as entering.,bug,medium,RESOLVED,dev_lina,2026-03-03
+n/a,Password rules text is cut off on phones,Only the first line of the rules is visible on small screens.,bug,low,closed,user4471,2026-03-17
+1047,,Customer called about a double charge on the last order.,bug,critical,open,support.rana,2026-03-19
+1048,Link to privacy policy is broken,Footer link on the booking page gives a 404.,documentation,medium,IN_PROGRESS,user2093,2026-03-20
+1050,Admin login has no attempt limit,A script can try passwords without any lockout.,security,critical,open,dev_lina,2026-03-23
+1051,Nightly sync overlaps with morning shift,Job now runs past 7am and slows the whole portal.,performance,Medium,Open,dev_kareem,2026-13-45
+1052,Pharmacy label prints wrong dosage unit,Milligrams are printed as micrograms on some labels.,bug,CRITICAL,in-progress,qa.noor,2026-03-24
+1053,Explain roles in the admin handbook,"New admins do not know the difference between editor and manager, please write it down.",documentation,low,open,user4471,2026-03-25
+1050,Admin login has no attempt limit,A script can try passwords without any lockout.,security,critical,open,dev_lina,2026-03-23
+1054,Parents want read receipts for notices,School office wants to know who has read a notice.,feature,low,closed,user8120,09/04/2026

@@ -1,0 +1,26 @@
+# Python byte-code and caches
+__pycache__/
+*.pyc
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local secrets and configuration
+.env
+
+# Local databases
+*.db
+*.sqlite3
+
+# Generated output
+out/
+
+# Editors and operating systems
+.idea/
+.DS_Store
+Thumbs.db
