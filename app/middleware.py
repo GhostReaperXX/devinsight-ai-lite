@@ -1,8 +1,13 @@
 """Code that runs around every request."""
 
+import logging
+import time
+
 from fastapi import FastAPI, Request
 
 from app.config import get_settings
+
+logger = logging.getLogger("devinsight.requests")
 
 # The documentation pages load scripts that this strict policy would block.
 DOCUMENTATION_PATHS = ("/docs", "/redoc")
@@ -29,4 +34,19 @@ def register_middleware(app: FastAPI) -> None:
             response.headers["Content-Security-Policy"] = CONTENT_SECURITY_POLICY
         if get_settings().is_production:
             response.headers["Strict-Transport-Security"] = "max-age=31536000"
+        return response
+
+    @app.middleware("http")
+    async def log_requests(request: Request, call_next):
+        started = time.perf_counter()
+        response = await call_next(request)
+        duration_ms = (time.perf_counter() - started) * 1000
+        # The path only: query strings and bodies can contain private data.
+        logger.info(
+            "%s %s -> %d in %.0f ms",
+            request.method,
+            request.url.path,
+            response.status_code,
+            duration_ms,
+        )
         return response

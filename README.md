@@ -2,8 +2,8 @@
 
 An intelligent software issue tracker, built step by step during the field training.
 
-This version connects the model to the application and secures it: accounts, access rules,
-category suggestions, related issues and duplicate detection.
+This version adds automated tests, continuous integration, logging, a health check, and
+everything needed to run on Render with a PostgreSQL database on Neon.
 
 ## Getting started
 
@@ -12,22 +12,31 @@ git clone https://github.com/YOUR-USERNAME/devinsight-ai-lite.git
 cd devinsight-ai-lite
 python -m venv .venv
 source .venv/Scripts/activate    # Git Bash on Windows
-pip install -r requirements.txt
+pip install -r requirements-dev.txt
 ```
 
-## Configure
+## Configure and run
 
 ```bash
 cp .env.example .env
-python -c "import secrets; print(secrets.token_urlsafe(48))"    # paste the result as SECRET_KEY
-```
-
-## Run it
-
-```bash
 python -m scripts.seed_demo --reset
 uvicorn app.main:app --reload
 ```
 
-Log in as `admin@devinsight.example` or `lina@devinsight.example` with the password `Training#2026`.
-These accounts are for demonstration only.
+## Quality checks
+
+```bash
+pytest --cov --cov-report=term-missing
+ruff check .
+```
+
+The same checks run on GitHub for every push and pull request. See `.github/workflows/ci.yml`.
+
+## Deployment settings on Render
+
+| Setting | Value |
+|---|---|
+| Build command | `pip install -r requirements.txt` |
+| Start command | `uvicorn app.main:app --host 0.0.0.0 --port $PORT --forwarded-allow-ips="*"` |
+| Health check path | `/health` |
+| Environment variables | `ENVIRONMENT=production`, `DATABASE_URL`, `SECRET_KEY`, `SEED_PASSWORD` |
